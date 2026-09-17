@@ -1,6 +1,3 @@
-# logs data to a csv file, useful if doing any sort of research/ML training
-# functionally optional though
-
 import csv
 import os
 import time
@@ -19,11 +16,10 @@ FIELDNAMES = [
     "head_yaw",
 ]
 
+FLUSH_EVERY_N_ROWS = 50
+
 
 class DataLogger:
-    
-    # appends one row per frame to a CSV log file.
-
     def __init__(self, log_dir: str = "logs"):
         os.makedirs(log_dir, exist_ok=True)
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -46,7 +42,6 @@ class DataLogger:
         head_pitch: float = 0.0,
         head_yaw: float = 0.0,
     ):
-        """Write a single row to the CSV."""
         now = time.time()
         self._writer.writerow({
             "timestamp": datetime.now().isoformat(timespec="milliseconds"),
@@ -61,8 +56,8 @@ class DataLogger:
             "head_yaw": round(head_yaw, 1),
         })
         self._row_count += 1
-        # forces every 50 rows to be written to disk in case of crash (this has happened before)
-        if self._row_count % 50 == 0:
+
+        if self._row_count % FLUSH_EVERY_N_ROWS == 0:
             self._file.flush()
 
     def close(self):

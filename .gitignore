@@ -1,5 +1,27 @@
+# Python
 __pycache__/
-*.pyc
-logs/
-*.task
+*.py[cod]
+*.egg-info/
+.pytest_cache/
 .venv/
+venv/
+env/
+
+# Session data and generated analysis output
+logs/
+
+# Downloaded MediaPipe model
+*.task
+src/models/
+
+# Arduino compiled output
+build/
+*.hex
+*.elf
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
